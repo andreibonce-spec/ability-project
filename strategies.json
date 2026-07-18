@@ -1,0 +1,56 @@
+[
+  {
+    "titlu": "Timer vizual pentru tranzitii",
+    "categorie": "tranzitii",
+    "varsta": "5-9",
+    "context": "tranzitii",
+    "descriere": "Folositi un cronometru vizual care arata copilului cat timp mai e pana la schimbarea activitatii. Reduce anxietatea cauzata de nepredictibilitate.",
+    "pasi": "1. Aratati timerul la inceputul activitatii; 2. Anuntati cand mai sunt 5 minute; 3. Numarati impreuna ultimele 10 secunde",
+    "note": "Functioneaza mai bine cu clepsidra fizica decat cu aplicatie pentru copiii sub 7 ani"
+  },
+  {
+    "titlu": "Poveste sociala pentru tranzitii",
+    "categorie": "tranzitii",
+    "varsta": "5-8",
+    "context": "tranzitii",
+    "descriere": "O poveste scurta cu imagini care descrie pasii unei tranzitii. Copilul stie dinainte ce urmeaza.",
+    "pasi": "1. Creati povestea cu 3-4 pasi simpli; 2. Cititi-o cu copilul dimineata; 3. Referiti-va la ea inainte de fiecare tranzitie",
+    "note": "Lasati copilul sa coloreze sau sa personalizeze povestea"
+  },
+  {
+    "titlu": "Obiect de confort senzorial",
+    "categorie": "senzorial",
+    "varsta": "5-12",
+    "context": "clasa",
+    "descriere": "Copilul tine un obiect mic senzorial in mana in momentele dificile. Reduce anxietatea si ajuta la autoreglare.",
+    "pasi": "1. Alegeti impreuna cu copilul un obiect mic si silentios; 2. Stabiliti reguli clare de utilizare; 3. Pastrati-l intr-un loc accesibil",
+    "note": "Evitati obiecte care fac zgomot sau distrag alti elevi"
+  },
+  {
+    "titlu": "Spatiu de calmare in clasa",
+    "categorie": "reglare emotionala",
+    "varsta": "5-12",
+    "context": "clasa",
+    "descriere": "Un colt dedicat in clasa unde copilul poate merge cand simte ca e coplesit. Nu e pedeapsa, e o unealta.",
+    "pasi": "1. Amenajati un colt linistit cu perne sau covoras; 2. Puneti acolo 2-3 activitati calmante; 3. Explicati intregii clase ca e un loc de reglare, nu de pedeapsa",
+    "note": "Toti copiii pot folosi spatiul, nu doar cei cu CES"
+  },
+  {
+    "titlu": "Instructiuni vizuale pas cu pas",
+    "categorie": "comunicare",
+    "varsta": "5-9",
+    "context": "clasa",
+    "descriere": "Inlocuiti instructiunile verbale lungi cu carduri vizuale care arata fiecare pas al activitatii.",
+    "pasi": "1. Desenati sau printati cate un card per pas; 2. Lipiti-le pe tabla in ordine; 3. Aratati fiecare card cand ajungeti la pasul respectiv",
+    "note": "Beneficiaza toti elevii, nu doar cei cu CES"
+  },
+  {
+    "titlu": "Tehnica 1-2-3 pentru comportament",
+    "categorie": "comportament",
+    "varsta": "5-10",
+    "context": "clasa",
+    "descriere": "Un sistem simplu de avertizare in 3 pasi inainte de o consecinta. Ofera predictibilitate si timp de autoreglare.",
+    "pasi": "1. La primul comportament nepotrivit spuneti calm '1'; 2. Daca continua, spuneti '2'; 3. La '3' aplicati consecinta stabilita dinainte",
+    "note": "Consecinta trebuie stabilita si explicata INAINTE, nu inventata pe loc. Tonul ramane calm mereu"
+  }
+]
