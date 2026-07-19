@@ -30,19 +30,28 @@
     <!-- antet -->
     <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md z-20 shrink-0">
         <div class="max-w-4xl mx-auto p-4 flex justify-between items-center w-full">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/40">
+            <div class="flex items-center gap-4">
+                <a href="/" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition text-sm font-bold flex items-center gap-2 shadow-sm border border-white/30">
+                    <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Tablou de Bord</span>
+                </a>
+                <div class="h-6 w-px bg-white/30 hidden sm:block"></div>
+                
+                <div class="flex items-center gap-2 hidden sm:flex">
                     <i class="fas fa-brain text-white text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg leading-tight tracking-wide">ABILITY</h1>
-                    <p class="text-xs text-blue-100 opacity-90 hidden sm:block">Asistent Educațional</p>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide">Asistent AI</h1>
                 </div>
             </div>
-            <button id="settingsBtn" class="text-white hover:bg-white/20 px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2 text-sm">
-                <i class="fas fa-sliders-h"></i>
-                <span class="hidden sm:inline">Setări Elev</span>
-            </button>
+            
+            <div class="flex items-center gap-2">
+                <button id="settingsBtn" class="text-white hover:bg-white/20 px-3 py-2 rounded-lg transition flex items-center gap-2 text-sm">
+                    <i class="fas fa-sliders-h"></i>
+                    <span class="hidden sm:inline">Context Elev</span>
+                </button>
+                
+                <a href="/" class="text-white hover:bg-red-500 hover:text-white px-3 py-2 rounded-lg transition flex items-center justify-center text-sm ml-2 border border-transparent hover:border-red-400" title="Închide Asistentul">
+                    <i class="fas fa-times text-xl"></i>
+                </a>
+            </div>
         </div>
     </header>
 
@@ -52,15 +61,15 @@
             <p class="text-xs text-gray-500 mb-3 font-semibold uppercase tracking-wider">Contextul elevului</p>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Vârstă (ex: 5-9)</label>
+                    <label class="block text-xs text-gray-500 mb-1">Vârstă</label>
                     <input type="text" id="filterVarsta" class="w-full p-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Categorie (ex: tranzitii)</label>
+                    <label class="block text-xs text-gray-500 mb-1">Categorie</label>
                     <input type="text" id="filterCategorie" class="w-full p-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Context (ex: clasa)</label>
+                    <label class="block text-xs text-gray-500 mb-1">Context</label>
                     <input type="text" id="filterContext" class="w-full p-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
