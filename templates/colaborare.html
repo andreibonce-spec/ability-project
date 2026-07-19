@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<!--  MODULUL DE COLABORARE INTRE PROFESORI PRIN CHAT MESSENGER  -->
+
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABILITY - Colaborare Profesori</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-[#f4fbfb] h-screen flex flex-col font-sans antialiased text-gray-800">
+    <!-- HEADER SIMPLU -->
+    <header class="bg-white border-b border-gray-200 shrink-0 px-6 py-3 flex justify-between items-center z-10 shadow-sm">
+        <div class="flex items-center gap-4">
+            <a href="/" class="text-gray-500 hover:text-blue-600 transition"><i class="fas fa-arrow-left text-xl"></i></a>
+            <div>
+                <h1 class="text-xl font-bold text-blue-900 leading-tight flex items-center gap-2">
+                    <i class="far fa-comments text-blue-500"></i> Rețea Profesori CES
+                </h1>
+                <p class="text-xs text-green-600 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span> 142 Profesori Online</p>
+            </div>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200">
+            <i class="fas fa-user-circle text-blue-500 text-3xl"></i>
+        </div>
+    </header>
+
+    <!-- ZONA DE MESSENGER -->
+    <div class="flex-1 max-w-6xl w-full mx-auto my-4 bg-white rounded-2xl shadow-sm border border-gray-100 flex overflow-hidden">
+        
+        <!-- PARTEA STÂNGĂ (Canale/Grupuri) - Ascunsă pe telefoane -->
+        <div class="w-1/3 border-r border-gray-100 bg-gray-50 flex flex-col hidden md:flex">
+            <div class="p-4 border-b border-gray-100">
+                <input type="text" placeholder="Caută discuții..." class="w-full bg-white px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-3 bg-blue-50 border-l-4 border-blue-500 cursor-pointer">
+                    <h3 class="font-bold text-gray-800 text-sm">Grup Național - Schimb de Idei</h3>
+                    <p class="text-xs text-gray-500 truncate mt-1">Ultimul mesaj: Mulțumesc pentru resursă!</p>
+                </div>
+                <div class="p-3 hover:bg-gray-100 cursor-pointer border-l-4 border-transparent transition">
+                    <h3 class="font-bold text-gray-800 text-sm">Strategii ADHD (Clasele Primare)</h3>
+                    <p class="text-xs text-gray-500 truncate mt-1">3 mesaje necitite</p>
+                </div>
+                <div class="p-3 hover:bg-gray-100 cursor-pointer border-l-4 border-transparent transition">
+                    <h3 class="font-bold text-gray-800 text-sm">Integrare Spectru Autist</h3>
+                    <p class="text-xs text-gray-500 truncate mt-1">Sesiune live joi la 18:00.</p>
+                </div>
+            </div>
+            <button class="m-4 bg-white border border-dashed border-gray-300 text-gray-600 py-2 rounded-lg text-sm hover:bg-gray-50 transition font-medium">
+                <i class="fas fa-plus"></i> Creează Grup Nou
+            </button>
+        </div>
+
+        <!-- PARTEA DREAPTĂ (Chat-ul propriu-zis) -->
+        <div class="flex-1 flex flex-col bg-white">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-white shadow-sm z-10">
+                <h2 class="font-bold text-gray-800">Grup Național - Schimb de Idei</h2>
+                <button class="text-gray-400 hover:text-blue-500"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- zona unde apar mesajele din baza de date -->
+            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-gray-50">
+                {% for msg in db.colaborare %}
+                <div class="flex flex-col {% if msg.autor == db.utilizator.nume %} items-end {% else %} items-start {% endif %}">
+                    <span class="text-[10px] text-gray-500 mb-1 ml-1">{{ msg.autor }} • {{ msg.ora }}</span>
+                    <div class="p-3 rounded-2xl max-w-[80%] text-sm shadow-sm
+                        {% if msg.autor == db.utilizator.nume %} 
+                            bg-blue-500 text-white rounded-br-none 
+                        {% else %} 
+                            bg-white border border-gray-200 text-gray-800 rounded-bl-none 
+                        {% endif %}">
+                        {{ msg.mesaj }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- bara de scris mesaj nou -->
+            <form id="formChat" class="p-4 bg-white border-t border-gray-100 flex gap-2">
+                <button type="button" class="text-gray-400 hover:text-blue-500 w-10 h-10 flex items-center justify-center rounded-full transition"><i class="fas fa-paperclip"></i></button>
+                <input type="text" id="inputMesaj" autocomplete="off" placeholder="Scrie un mesaj către colegi..." class="flex-1 bg-gray-100 border-transparent rounded-full px-5 focus:bg-white focus:border-blue-300 focus:ring-0 text-sm">
+                <button type="submit" class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-700 transition shadow-sm"><i class="fas fa-paper-plane text-sm ml-[-2px]"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // functie automată care dă scroll jos de tot la chat
+        const chatBox = document.getElementById('chatMessages');
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        document.getElementById('formChat').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('inputMesaj');
+            const mesaj = input.value.trim();
+            if (!mesaj) return;
+
+            // trimite mesajul către Python
+            await fetch('/api/trimite_mesaj', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mesaj: mesaj })
+            });
+
+            // Reîncărcăm pagina pentru a vedea noul mesaj (ca pe old-school web)
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>
