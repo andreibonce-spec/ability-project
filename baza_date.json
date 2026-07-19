@@ -1,0 +1,41 @@
+{
+    "utilizator": {
+        "nume": "Vasile Pop",
+        "email": "profesor.priceput@algebra.ro"
+    },
+    "elevi": [
+        {
+            "nume": "andrei bonce",
+            "diagnostic": "adhd",
+            "varsta": 20,
+            "progres": 3,
+            "activitate_recenta": "Adăugat recent în sistem",
+            "avatar_id": 1
+        },
+        {
+            "nume": "marin costin",
+            "diagnostic": "autism",
+            "varsta": 12,
+            "progres": 6,
+            "activitate_recenta": "Adăugat recent în sistem",
+            "avatar_id": 2
+        }
+    ],
+    "colaborare": [
+        {
+            "autor": "Maria Ionescu",
+            "ora": "10:30",
+            "mesaj": "Bună dimineața colegi! Are cineva materiale vizuale pentru fracții adaptate pentru discalculie?"
+        },
+        {
+            "autor": "Prof. Mihai B.",
+            "ora": "10:45",
+            "mesaj": "Salut! Da, folosesc eu niște planșe cu pizza tăiată în felii. Le poți face foarte ușor din carton colorat."
+        },
+        {
+            "autor": "Andrei",
+            "ora": "15:47",
+            "mesaj": "cf ba"
+        }
+    ]
+}
