@@ -4,11 +4,21 @@ import json
 import os
 from dotenv import load_dotenv
 
+
+#  COMENZI RULARE SITE DEBUG
+#  source venv/bin/activate
+#  python3 app.py
+
+
+
 load_dotenv()
 
 app = Flask(__name__)
 
-# Încărcăm strategiile (am adăugat o protecție în caz că fișierul lipsește)
+# ==========================================
+#      ÎNCĂRCARE STRATEGII (Pentru AI)
+# ==========================================
+
 try:
     with open("strategies.json", "r", encoding="utf-8") as f:
         strategii = json.load(f)
@@ -16,13 +26,50 @@ except FileNotFoundError:
     strategii = [] 
     print("Atenție: Fișierul strategies.json nu a fost găsit!")
 
+# ==========================================
+#   CONFIGURARE FUNCȚII BAZĂ DE DATE (ELEVI)
+# ==========================================
+
+FISIER_DB = "baza_date.json"
+
+import datetime # Adaugă acest import sus de tot, sub 'import os'
+
+# --- 1. ÎNLOCUIEȘTE FUNCȚIA citeste_db CU ACEASTA ---
+def citeste_db():
+    try:
+        with open(FISIER_DB, "r", encoding="utf-8") as f:
+            db = json.load(f)
+            # Upgradăm baza de date automat pentru noul sistem
+            if "email" not in db.get("utilizator", {}):
+                db["utilizator"]["email"] = "profesor.abilitati@scoala.ro"
+            if "colaborare" not in db:
+                db["colaborare"] = [
+                    {"autor": "Maria Ionescu", "ora": "10:30", "mesaj": "Bună dimineața colegi! Are cineva materiale vizuale pentru fracții adaptate pentru discalculie?"},
+                    {"autor": "Prof. Mihai B.", "ora": "10:45", "mesaj": "Salut! Da, folosesc eu niște planșe cu pizza tăiată în felii. Le poți face foarte ușor din carton colorat."}
+                ]
+            return db
+    except FileNotFoundError:
+        return {
+            "utilizator": {"nume": "Profesoară", "email": "profesor@scoala.ro"}, 
+            "elevi": [], 
+            "colaborare": []
+        }
+
+def salveaza_db(date):
+    with open(FISIER_DB, "w", encoding="utf-8") as f:
+        json.dump(date, f, ensure_ascii=False, indent=4)
+
+
+# ==========================================
+#     CONFIGURARE ASISTENT AI (Claude)
+# ==========================================
+
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def cauta_strategii(varsta, categorie, context):
     rezultate = []
     for s in strategii:
         potrivire = True
-        # Am folosit .get() pentru a evita erorile dacă o cheie lipsește din JSON
         if varsta and varsta not in s.get("varsta", ""):
             potrivire = False
         if categorie and s.get("categorie", "") != categorie:
@@ -36,12 +83,73 @@ def cauta_strategii(varsta, categorie, context):
         rezultate = strategii
     return rezultate
 
-# ---- RUTA NOUĂ PENTRU INTERFAȚĂ ----
+
+# ==========================================
+#    RUTE PENTRU AFIȘARE PAGINI WEB (HTML)
+# ==========================================
+
+# Pagina Principală (Dashboard)
 @app.route("/")
 def home():
-    return render_template("index.html")
+    baza_date = citeste_db() # citeste elevii din JSON
+    # trimite baza de date către pagina HTML ca să o poată afișa
+    return render_template("dashboard.html", db=baza_date) 
 
-# ---- RUTA TA EXISTENTĂ DE API ----
+# Pagina pentru Asistentul AI
+@app.route("/asistent")
+def asistent():
+    return render_template("chat.html")
+
+
+# ======================================================
+#   RUTE PENTRU FUNCȚIONALITĂȚI API
+# ======================================================
+
+# Funcția care adaugă un elev nou când apeși butonul "Salvează"
+@app.route("/api/adauga_elev", methods=["POST"])
+def adauga_elev():
+    date_noi = request.get_json()
+    db = citeste_db()
+    
+    elev_nou = {
+        "nume": date_noi.get("nume"),
+        "diagnostic": date_noi.get("diagnostic"),
+        "varsta": int(date_noi.get("varsta", 0)),
+        "progres": 0, # Progresul începe mereu de la 0%
+        "activitate_recenta": "Adăugat recent în sistem",
+        "avatar_id": len(db["elevi"]) + 1 
+    }
+    
+    db["elevi"].append(elev_nou)
+    salveaza_db(db)
+    
+    return jsonify({"succes": True})
+
+#=============================
+# RUTA MESAJE INTRE PROFESORI
+#=============================
+
+@app.route("/colaborare")
+def colaborare():
+    baza_date = citeste_db()
+    return render_template("colaborare.html", db=baza_date)
+
+@app.route("/api/trimite_mesaj", methods=["POST"])
+def trimite_mesaj():
+    date = request.get_json()
+    db = citeste_db()
+    
+    mesaj_nou = {
+        "autor": db["utilizator"]["nume"], # Numele tău din cont
+        "ora": datetime.datetime.now().strftime("%H:%M"), # Ora actuală
+        "mesaj": date.get("mesaj", "")
+    }
+    
+    db["colaborare"].append(mesaj_nou)
+    salveaza_db(db)
+    return jsonify({"succes": True})
+
+# Funcția care vorbește cu Claude
 @app.route("/api/intrebare", methods=["POST"])
 def raspunde():
     date = request.get_json()
@@ -65,19 +173,18 @@ Note: {s.get('note', '')}
 """
 
     try:
-        # ATENȚIE: Am actualizat numele modelului la cel real și funcțional
         message = client.messages.create(
             model="claude-3-5-sonnet-20240620",
             max_tokens=1024,
             system=f"""Ești ABILITY, un asistent educațional pentru profesori care lucrează cu elevi cu cerințe educaționale speciale (CES).
 
 Reguli:
-- Răspunde DOAR pe baza strategiilor de mai jos
+ - Răspunde DOAR pe baza strategiilor de mai jos
 - Nu inventa informații noi
 - Fii practic, clar, empatic
-- Fără jargon academic
-- Fără etichete de diagnostic
-- Răspunde în limba română
+- Fără jargon academic complicat
+- Fără etichete de diagnostic jignitoare sau ofensatoare
+- Răspunde în limba română si in alta limba doar daca ti se specifica clar 
 
 STRATEGII DISPONIBILE:
 {text_strategii}""",
@@ -89,8 +196,10 @@ STRATEGII DISPONIBILE:
         return jsonify({"raspuns": raspuns})
     
     except Exception as e:
-        # Protecție: dacă pică API-ul, aplicația nu crapă, ci afișează eroarea în chat
         return jsonify({"raspuns": f"Eroare de la serverul AI: {str(e)}"}), 500
 
+# ==========================================
+#             PORNIREA APLICAȚIEI
+# ==========================================
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
