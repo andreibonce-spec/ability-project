@@ -198,6 +198,45 @@ STRATEGII DISPONIBILE:
     except Exception as e:
         return jsonify({"raspuns": f"Eroare de la serverul AI: {str(e)}"}), 500
 
+
+@app.route("/adapteaza")
+def adapteaza():
+    return render_template("adapteaza.html")
+
+@app.route("/api/adapteaza", methods = ["POST"])
+def adapteaza_activitate():
+    date = request.get_json()
+    activitate = date.get("activitate", "")
+    nevoie = date.get("nevoie", "")
+    varsta = date.get("varsta", "")
+
+    try:
+        message = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1024,
+            system="""Esti ABILITY, un asistent educational pentru profesori care lucreaza cu elevi cu cerinte educationale speciale (CES).
+
+Profesorul iti da o activitate si nevoia unui elev. Tu trebuie sa adaptezi activitatea pentru acel elev.
+
+Reguli:
+- Pastreaza obiectivul original al activitatii
+- Ofera 2-3 variante de adaptare
+- Fii concret si practic
+- Explica DE CE fiecare adaptare ajuta
+- Fara jargon academic
+- Raspunde in limba romana""",
+            messages=[
+                {"role": "user", "content": f"Activitatea: {activitate}\nNevoia elevului: {nevoie}\nVarsta elevului: {varsta}"}
+            ]
+        )
+        raspuns = message.content[0].text
+        return jsonify({"raspuns": raspuns})
+    except Exception as e:
+        return jsonify({"raspuns": f"Eroare: {str(e)}"}), 500
+
+
+
+
 # ==========================================
 #             PORNIREA APLICAȚIEI
 # ==========================================

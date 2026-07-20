@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABILITY - Adaptează Activitate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-[#f4fbfb] min-h-screen font-sans antialiased text-gray-800">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-4">
+                <a href="/" class="text-gray-500 hover:text-blue-600 transition"><i class="fas fa-arrow-left text-xl"></i></a>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-puzzle-piece text-teal-500 text-2xl"></i>
+                    <div>
+                        <h1 class="text-xl font-bold text-blue-900 leading-tight">Adaptează Activitate</h1>
+                        <p class="text-[11px] text-gray-500">Transformă orice activitate pentru elevii cu CES</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Descrie activitatea</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Activitatea pe care vrei sa o adaptezi</label>
+                    <textarea id="activitate" rows="3" class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white text-sm" placeholder="Ex: Citire in grup a unei povesti, apoi discutie despre personaje..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Cerinta educationala a elevului</label>
+                    <textarea id="nevoie" rows="2" class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white text-sm" placeholder="Ex: dificultati de concentrare, se pierde dupa 5 minute..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Varsta elevului</label>
+                    <input type="text" id="varsta" class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white text-sm" placeholder="Ex: 8 ani">
+                </div>
+                <button id="btnAdapteaza" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-magic"></i> Adapteaza Activitatea
+                </button>
+            </div>
+        </div>
+
+        <div id="rezultat" class="hidden bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fas fa-robot text-teal-500"></i>
+                <h2 class="text-lg font-bold text-gray-800">Activitate Adaptata</h2>
+            </div>
+            <div id="raspunsText" class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
+        </div>
+
+        <div id="loading" class="hidden text-center py-8">
+            <div class="inline-flex items-center gap-2 text-teal-600">
+                <i class="fas fa-spinner fa-spin text-xl"></i>
+                <span class="text-sm font-medium">ABILITY adapteaza activitatea...</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('btnAdapteaza').addEventListener('click', async () => {
+            const activitate = document.getElementById('activitate').value.trim();
+            const nevoie = document.getElementById('nevoie').value.trim();
+            const varsta = document.getElementById('varsta').value.trim();
+
+            if (!activitate || !nevoie) {
+                alert('Completeaza cel putin activitatea si cerinta elevului.');
+                return;
+            }
+
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('rezultat').classList.add('hidden');
+            document.getElementById('btnAdapteaza').disabled = true;
+
+            try {
+                const response = await fetch('/api/adapteaza', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ activitate, nevoie, varsta })
+                });
+
+                const data = await response.json();
+                let text = data.raspuns.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                document.getElementById('raspunsText').innerHTML = text;
+                document.getElementById('rezultat').classList.remove('hidden');
+            } catch (error) {
+                document.getElementById('raspunsText').textContent = 'Nu m-am putut conecta la server.';
+                document.getElementById('rezultat').classList.remove('hidden');
+            }
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('btnAdapteaza').disabled = false;
+        });
+    </script>
+</body>
+</html>
