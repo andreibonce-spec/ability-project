@@ -174,7 +174,7 @@ Note: {s.get('note', '')}
 
     try:
         message = client.messages.create(
-            model="claude-3-5-sonnet-20240620",
+            model="claude-sonnet-4-6",
             max_tokens=1024,
             system=f"""Ești ABILITY, un asistent educațional pentru profesori care lucrează cu elevi cu cerințe educaționale speciale (CES).
 

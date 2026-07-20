@@ -19,6 +19,14 @@
             "progres": 6,
             "activitate_recenta": "Adăugat recent în sistem",
             "avatar_id": 2
+        },
+        {
+            "nume": "Denis Venter",
+            "diagnostic": "Autism",
+            "varsta": 12,
+            "progres": 0,
+            "activitate_recenta": "Adăugat recent în sistem",
+            "avatar_id": 3
         }
     ],
     "colaborare": [
@@ -36,6 +44,11 @@
             "autor": "Andrei",
             "ora": "15:47",
             "mesaj": "cf ba"
+        },
+        {
+            "autor": "Vasile Pop",
+            "ora": "12:08",
+            "mesaj": "salut colegii"
         }
     ]
 }
