@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> 
 
     <main class="max-w-3xl mx-auto px-6 py-8">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
@@ -52,6 +52,9 @@
                 <h2 class="text-lg font-bold text-gray-800">Activitate Adaptata</h2>
             </div>
             <div id="raspunsText" class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
+            <button id="btnSalveaza" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 mt-4">
+                <i class="fas fa-save"></i> Salvează activitatea
+            </button>
         </div>
 
         <div id="loading" class="hidden text-center py-8">
@@ -95,6 +98,19 @@
 
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('btnAdapteaza').disabled = false;
+        });
+        document.getElementById('btnSalveaza').addEventListener('click', async () => {
+            const activitate = document.getElementById('activitate').value;
+            const nevoie = document.getElementById('nevoie').value;
+            const varsta = document.getElementById('varsta').value;
+            const raspunsText = document.getElementById('raspunsText').textContent;
+
+            const response = await fetch('/api/salveaza_activitate', {
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ activitate, nevoie, varsta, raspunsText})
+            });
+            alert('Activitate salvata!')
         });
     </script>
 </body>

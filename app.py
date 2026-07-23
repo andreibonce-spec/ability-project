@@ -234,7 +234,27 @@ Reguli:
     except Exception as e:
         return jsonify({"raspuns": f"Eroare: {str(e)}"}), 500
 
+@app.route("/api/salveaza_activitate", methods = ["POST"])
+def salveaza_activitate():
+    date_noi = request.get_json()
+    db = citeste_db()
 
+    salvare_noua = {
+        "activitate": date_noi.get("activitate"), 
+        "varsta": date_noi.get("varsta", 0),
+        "nevoie": date_noi.get("nevoie"),
+        "raspunsText": date_noi.get("raspunsText"),
+        "data": datetime.datetime.now().strftime("%Y-%m-%d")
+    }
+
+    db["activitati_salvate"].append(salvare_noua)
+    salveaza_db(db)
+    return jsonify({"succes": True})
+
+@app.route("/activitati")
+def activitati():
+    baza_date = citeste_db()
+    return render_template("activitati.html", db = baza_date)
 
 
 # ==========================================
