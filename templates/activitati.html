@@ -42,12 +42,34 @@
                         <h3 class="font-bold text-gray-800">{{ a.activitate }}</h3>
                         <p class="text-xs text-teal-600 mt-1">{{ a.nevoie }} • {{ a.varsta }}</p>
                     </div>
-                    <span class="text-xs text-gray-400">{{ a.data }}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-400">{{ a.data }}</span>
+                        <button onclick="stergeActivitate('{{ a.activitate }}')" class="text-red-400 hover:text-red-600 transition" title="Șterge activitatea">
+                            <i class="fas fa-trash text-sm"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap border-t border-gray-100 pt-3 mt-3">{{ a.raspunsText }}</div>
             </div>
             {% endfor %}
         {% endif %}
     </main>
+    <script>
+        async function stergeActivitate(activitate) {
+            if (!confirm('Sigur vrei să ștergi această activitate?')) return;
+            try {
+                const response = await fetch('/api/sterge_activitate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ activitate: activitate })
+                });
+                if (response.ok) {
+                    window.location.reload();
+                }
+            } catch(err) {
+                alert('Eroare la ștergere.');
+            }
+        }
+    </script>
 </body>
 </html>

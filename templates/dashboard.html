@@ -144,6 +144,9 @@
                         </div>
                     </div>
                     <span class="text-xs text-gray-400">Vârsta {{ elev.varsta }}</span>
+                    <button onclick="stergeElev('{{ elev.nume }}')" class="text-red-400 hover:text-red-600 transition ml-2" title="Șterge elevul">
+                        <i class="fas fa-trash text-sm"></i>
+                    </button>
                 </div>
                 <div class="mb-3">
                     <div class="flex justify-between text-xs mb-1">
@@ -231,6 +234,21 @@
                 alert("A apărut o eroare la salvarea elevului.");
             }
         });
+        async function stergeElev(nume) {
+            if (!confirm('Sigur vrei să ștergi acest elev?')) return;
+            try {
+                const response = await fetch('/api/stergere_elev', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nume: nume })
+                });
+                if (response.ok) {
+                    window.location.reload();
+                }
+            } catch(err) {
+                alert('Eroare la ștergere.');
+            }
+        }
     </script>
 </body>
 </html>

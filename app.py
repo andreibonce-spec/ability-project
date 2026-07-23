@@ -125,6 +125,18 @@ def adauga_elev():
     
     return jsonify({"succes": True})
 
+@app.route("/api/stergere_elev", methods = ["POST"])
+def sterge_elev():
+    date = request.get_json()
+    nume_elev = date.get("nume", "")
+    db = citeste_db()
+
+    db["elevi"] = [e for e in db["elevi"] if e["nume"] != nume_elev]
+
+    salveaza_db(db)
+    return jsonify({"succes": True})
+
+
 #=============================
 # RUTA MESAJE INTRE PROFESORI
 #=============================
@@ -251,10 +263,23 @@ def salveaza_activitate():
     salveaza_db(db)
     return jsonify({"succes": True})
 
+@app.route("/api/sterge_activitate", methods = ["POST"])
+def sterge_activitate():
+    date = request.get_json()
+    activitate_de_sters = date.get("activitate", "")
+    db = citeste_db()
+
+    db["activitati_salvate"] = [a for a in db["activitati_salvate"] if a["activitate"] != activitate_de_sters]
+
+    salveaza_db(db)
+    return jsonify({"succes": True})
+
 @app.route("/activitati")
 def activitati():
     baza_date = citeste_db()
     return render_template("activitati.html", db = baza_date)
+
+
 
 
 # ==========================================

@@ -27,14 +27,6 @@
             "progres": 0,
             "activitate_recenta": "Adăugat recent în sistem",
             "avatar_id": 3
-        },
-        {
-            "nume": "A",
-            "diagnostic": "Iq 86",
-            "varsta": 8,
-            "progres": 0,
-            "activitate_recenta": "Adăugat recent în sistem",
-            "avatar_id": 4
         }
     ],
     "colaborare": [
@@ -49,13 +41,5 @@
             "mesaj": "Da, folosesc niste planse cu pizza taiata in felii. Le poti face foarte usor din carton colorat."
         }
     ],
-    "activitati_salvate": [
-        {
-            "activitate": "Citire in grup a unei povesti apoi discutie in grup despre personaje",
-            "varsta": "8 ani",
-            "nevoie": "dificultati de concentrare, se pierde in 5 minute",
-            "raspunsText": "# 🎯 Adaptări pentru activitatea de lectură în grup\n\nElev: 8 ani | Provocare: Dificultăți de concentrare (~5 minute)\n\n---\n\n## Varianta 1: „Povestea în bucăți mici\" 🧩\n\nCum funcționează:\nÎmparte povestea în secțiuni scurte de 2-3 minute. După fiecare bucată, elevul primește o sarcină concretă și rapidă — de exemplu, desenează personajul tocmai întâlnit sau pune un simbol (⭐ = personaj bun, ⚡ = personaj rău) pe o fișă simplă.\n\nDe ce ajută:\nCreierul lui „resetează\" atenția la fiecare sarcină nouă. Nu trebuie să stea concentrat 20 de minute, ci doar câte 2-3 minute pe rând.\n\n---\n\n## Varianta 2: „Am un rol în poveste\" 🎭\n\nCum funcționează:\nElevul primește un personaj al lui pe care îl urmărește pe tot parcursul citirii. Are o fișă cu fața personajului și bifează de câte ori apare. La discuție, el este „expertul\" acelui personaj.\n\nDe ce ajută:\nResponsabilitatea unui rol personal îi dă un motiv clar să fie atent. Nu ascultă povestea în general — ascultă după „al lui.\"\n\n---\n\n## Varianta 3: „Stau, mă mișc, revin\" 🏃\n\nCum funcționează:\nStabilești din start că după 4-5 minute de citire, elevul are voie să facă o pauză scurtă de mișcare (30 de secunde — se ridică, se întinde, bea apă). Apoi revine. Poate purta un cartonaș roșu/verde pe bancă: verde = ascult, roșu = am nevoie de o pauză.\n\nDe ce ajută:\nMișcarea scurtă „reîncarcă\" atenția. Cartonașul îi dă controlul, fără să deranjeze grupul.\n\n---\n\n## 💡 Sfat rapid pentru discuția de grup\n\nPune-l primul să răspundă la o întrebare simplă și concretă (*„Cum arăta personajul?\"*), nu ultima. Dacă așteaptă mult, pierde firul și se descurajează.\n\n---\n\n*Vrei să îți fac și fișa concretă pentru una dintre variante?*",
-            "data": "2026-07-23"
-        }
-    ]
+    "activitati_salvate": []
 }
